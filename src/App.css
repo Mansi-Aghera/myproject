@@ -25,6 +25,11 @@ body {
   box-shadow: 4px 0 15px rgba(0,0,0,0.15);
 }
 
+.sidebar {
+  flex-shrink: 0;
+}
+
+
 .sidebar h4 {
   text-align: center;
   font-weight: 600;
@@ -99,11 +104,12 @@ body {
 }
 
 .card-title {
-  font-size: 13px;
+  font-size: larger;
   color: var(--text-light);
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.6px;
+  font-weight: 700;
 }
 
 .card-value {
@@ -118,7 +124,7 @@ body {
   right: 20px;
   font-size: 28px;
   color: var(--primary);
-  opacity: 0.15;
+  /* opacity: 0.15; */
 }
 
 
@@ -368,4 +374,32 @@ body {
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: var(--primary);
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.dashboard-card p,
+.dashboard-card h5,
+.dashboard-card b {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.recent-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 2 lines only */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dashboard-card {
+  overflow: hidden;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }

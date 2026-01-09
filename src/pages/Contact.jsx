@@ -70,30 +70,42 @@ export default function Contact() {
     setViewItem(null);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "number") {
+    if (!/^\d*$/.test(value)) return; // only digits
+  }
+
+  setFormData((prev) => ({ ...prev, [name]: value }));
+};
+
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      setLoading(true);
-      if (editingItem) {
-        await updateContact(editingItem.id, formData);
-      } else {
-        await createContact(formData);
-      }
-      goBack();
-      loadContacts();
-    } catch (err) {
-      alert(JSON.stringify(err.response?.data, null, 2));
-      setError("Save failed");
-    } finally {
-      setLoading(false);
+  // 10-digit validation
+  if (!/^\d{10}$/.test(formData.number)) {
+    alert("Contact number must be exactly 10 digits");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    if (editingItem) {
+      await updateContact(editingItem.id, formData);
+    } else {
+      await createContact(formData);
     }
-  };
+    goBack();
+    loadContacts();
+  } catch (err) {
+    alert(JSON.stringify(err.response?.data, null, 2));
+    setError("Save failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const deleteItem = async (id) => {
     if (!window.confirm("Delete this contact?")) return;
@@ -105,7 +117,7 @@ export default function Contact() {
     <div className="category-wrapper">
       {/* HEADER */}
       <div className="category-header">
-        <h2 className="dashboard-title">Contact Management</h2>
+        <h2 className="dashboard-title">📨Contact Management</h2>
 
         {mode === "list" && (
           <button onClick={openAddForm} className="primary-btn">
@@ -138,7 +150,16 @@ export default function Contact() {
 
             <div className="form-group full">
               <label>Number</label>
-              <input name="number" value={formData.number} onChange={handleChange} required />
+              <input
+  name="number"
+  value={formData.number}
+  onChange={handleChange}
+  required
+  maxLength={10}
+  pattern="[0-9]{10}"
+  title="Please enter exactly 10 digits"
+/>
+
             </div>
 
             <div className="form-group full">

@@ -1,4 +1,3 @@
-
 // import React, { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 // import { FaList, FaCalendarAlt, FaEnvelope, FaRupeeSign } from "react-icons/fa";
@@ -92,14 +91,22 @@
 
 // export default Dashboard;
 
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaList, FaCalendarAlt, FaEnvelope, FaRupeeSign } from "react-icons/fa";
 import { getDashboardStats } from "../services/dashboard.service";
 import {
-  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  BarChart, Bar, PieChart, Pie, Cell
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 
 const Dashboard = () => {
@@ -118,20 +125,39 @@ const Dashboard = () => {
   if (!data) return <div className="p-4">Loading dashboard...</div>;
 
   const Card = ({ title, value, icon, onClick, gradient }) => (
-    <div className="col-md-3 mb-4">
-      <div
-        className="dashboard-card"
-        style={{ cursor: "pointer", background: gradient, color: "#fff" }}
-        onClick={onClick}
+  <div className="col-md-3 mb-4">
+    <div
+      className="dashboard-card"
+      style={{
+        cursor: "pointer",
+        background: gradient,
+        color: "#fff",
+        minHeight: "130px",
+      }}
+      onClick={onClick}
+    >
+      {React.cloneElement(icon, {
+        color: "rgba(255,255,255,0.9)",
+        size: 28,
+      })}
+
+      <p
+        className="card-title"
+        style={{ color: "rgba(255,255,255,0.75)" }}
       >
-        {icon}
-        <p className="card-title" style={{ color: "rgba(255,255,255,0.7)" }}>
-          {title}
-        </p>
-        <p className="card-value">{value}</p>
-      </div>
+        {title}
+      </p>
+
+      <p
+        className="card-value"
+        style={{ color: "#fff" }}
+      >
+        {value}
+      </p>
     </div>
-  );
+  </div>
+);
+
 
   const pieData = [
     { name: "Categories", value: data.categories.length },
@@ -146,25 +172,33 @@ const Dashboard = () => {
 
       {/* CARDS */}
       <div className="row">
-        <Card title="Categories" value={data.categories.length}
+        <Card
+          title="Categories"
+          value={data.categories.length}
           icon={<FaList className="card-icon" />}
           gradient="linear-gradient(135deg,#6366F1,#4338CA)"
           onClick={() => navigate("/categories")}
         />
 
-        <Card title="Events" value={data.events.length}
+        <Card
+          title="Events"
+          value={data.events.length}
           icon={<FaCalendarAlt className="card-icon" />}
           gradient="linear-gradient(135deg,#F59E0B,#B45309)"
           onClick={() => navigate("/events")}
         />
 
-        <Card title="Contacts" value={data.contacts.length}
+        <Card
+          title="Contacts"
+          value={data.contacts.length}
           icon={<FaEnvelope className="card-icon" />}
           gradient="linear-gradient(135deg,#06B6D4,#0EA5E9)"
           onClick={() => navigate("/contact")}
         />
 
-        <Card title="Donations" value={data.donations.length}
+        <Card
+          title="Donations"
+          value={data.donations.length}
           icon={<FaRupeeSign className="card-icon" />}
           gradient="linear-gradient(135deg,#22C55E,#16A34A)"
           onClick={() => navigate("/donations")}
@@ -180,7 +214,10 @@ const Dashboard = () => {
               <PieChart>
                 <Pie data={pieData} dataKey="value" outerRadius={90}>
                   {pieData.map((_, i) => (
-                    <Cell key={i} fill={["#6366F1", "#F59E0B", "#06B6D4", "#22C55E"][i]} />
+                    <Cell
+                      key={i}
+                      fill={["#6366F1", "#F59E0B", "#06B6D4", "#22C55E"][i]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -210,7 +247,9 @@ const Dashboard = () => {
           <div className="dashboard-card">
             <h5>Recent Contacts</h5>
             {data.contacts.slice(0, 5).map((c) => (
-              <p key={c.id}><b>{c.name}</b> - {c.email}</p>
+              <p key={c.id} className="recent-text">
+                <b>{c.name}</b> - {c.email}
+              </p>
             ))}
           </div>
         </div>
@@ -219,12 +258,13 @@ const Dashboard = () => {
           <div className="dashboard-card">
             <h5>Recent Events</h5>
             {data.events.slice(0, 5).map((e) => (
-              <p key={e.id}><b>{e.title}</b> - {e.location}</p>
+              <p key={e.id}>
+                <b>{e.title}</b> - {e.location}
+              </p>
             ))}
           </div>
         </div>
       </div>
-
     </div>
   );
 };

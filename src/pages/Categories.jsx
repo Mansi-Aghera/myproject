@@ -114,7 +114,7 @@ export default function Category() {
     <div className="category-wrapper">
       {/* HEADER */}
       <div className="category-header">
-        <h2 className="dashboard-title">Category Management</h2>
+        <h2 className="dashboard-title">📂Category Management</h2>
 
         {mode === "list" && (
           <button onClick={openAddForm} className="primary-btn">
